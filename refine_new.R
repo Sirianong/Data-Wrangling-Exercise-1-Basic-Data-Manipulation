@@ -37,3 +37,15 @@ refine_3$company <- factor(refine_3$company)
 levels(refine_3$company)
 
 refine_3 %>% mutate(company_phillips = ifelse(company = phillips,1,0),company_akzo)
+
+
+
+
+## 6. doing some stupid thing to see git checkout
+a <- 5
+city <- c(1:5)
+for(i in city) {
+  print("city")
+}
+str(city)
+
