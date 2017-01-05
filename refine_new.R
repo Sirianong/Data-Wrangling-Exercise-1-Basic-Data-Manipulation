@@ -41,11 +41,6 @@ refine_3 %>% mutate(company_phillips = ifelse(company = phillips,1,0),company_ak
 
 
 
-## 6. doing some stupid thing to see git checkout
-a <- 5
-city <- c(1:5)
-for(i in city) {
-  print("city")
-}
-str(city)
+## 6. doing some stupid thing to see git checkout--play matrix
+a<-matrix(1:6,nrow=2)
 
