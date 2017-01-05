@@ -64,3 +64,6 @@ refine_4 <- refine_3 %>% mutate(product_smartphone = ifelse(product_cat == "Smar
 select(refine_4,product_cat,product_smartphone,product_tv,product_laptop,company_Tablet)
 
 View(refine_4)
+
+#export table
+write.csv(refine_4,file = "refine.clean.csv")
