@@ -8,8 +8,13 @@ refine_1 <- refine[-1,]
 
 ## 1. clean up brand names
 refine_1$company <- tolower(refine_1$company)
+refine_1 <- refine_1 %>% mutate(company_new = ifelse(company == "ak zo"| 
+                                                       company == "akz0"|company == "akzo","akzo",
+                                                     ifelse(company == "fillips"|company == "phillips"|company == "phillps"|
+                                                              company == "phllips"|company=="philips"|company=="phlips",
+                                                            "philips",ifelse(company=="unilver"|company =="unilever", "unilever","van houten"))))
 
-View(refine_1)
+refine_1$company <- refine_1$company_new
 
 ## 2. separate product code and number
 library(dplyr)
@@ -32,15 +37,30 @@ refine_3 <- refine_2 %>% mutate(full_address = paste(address,city,country))
 View(refine_3)
 
 ## 5. create dummy
-class(refine_3$company)
-refine_3$company <- factor(refine_3$company)
-levels(refine_3$company)
+## Add four binary (1 or 0) columns for company: 
+## company_philips, company_akzo, company_van_houten and company_unilever
+## Add four binary (1 or 0) columns for product category: 
+## product_smartphone, product_tv, product_laptop and product_tablet
 
-refine_3 %>% mutate(company_phillips = ifelse(company = phillips,1,0),company_akzo)
+class(refine_3$company_new)
+refine_3$company_new <- factor(refine_3$company_new)
+levels(refine_3$company_new)
 
+refine_4 <- refine_3 %>% mutate(company_philips = ifelse(company_new == "philips",1,0)
+                                ,company_akzo = ifelse(company_new=="akzo",1,0)
+                                ,company_van_houten = ifelse(company_new=="van houten",1,0)
+                                ,company_unilever=ifelse(company_new=="unilever",1,0))
 
+select(refine_4,company_new,company_philips,company_akzo,company_van_houten,company_unilever)
 
+class(refine_3$product_categories)
+refine_3$product_cat <- factor(refine_3$product_categories)
+levels(refine_3$product_cat)
 
-## 6. doing some stupid thing to see git checkout--play matrix
-a<-matrix(1:6,nrow=2)
+refine_4 <- refine_3 %>% mutate(product_smartphone = ifelse(product_cat == "Smartphone",1,0)
+                                ,product_tv = ifelse(product_cat=="TV",1,0)
+                                ,product_laptop = ifelse(product_cat=="Labtop",1,0)
+                                ,company_Tablet=ifelse(product_cat=="Tablet",1,0))
+select(refine_4,product_cat,product_smartphone,product_tv,product_laptop,company_Tablet)
 
+View(refine_4)
